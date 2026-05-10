@@ -154,17 +154,17 @@ export const CheckersGame: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#FDFCF8] text-[#1A1A1A] font-sans p-4 md:p-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-indigo-600 text-white font-sans p-4 md:p-8">
       {/* Header */}
-      <div className="w-full max-w-2xl flex justify-between items-end mb-8 border-b border-[#1A1A1A]/10 pb-4">
+      <div className="w-full max-w-2xl flex justify-between items-end mb-8 border-b border-white/20 pb-4">
         <div>
-          <h1 className="text-4xl md:text-6xl font-serif font-extralight tracking-tight">ШАШКИ</h1>
-          <p className="text-xs uppercase tracking-widest opacity-50 mt-2 font-mono">Russian Checkers</p>
+          <h1 className="text-4xl md:text-6xl font-serif font-medium tracking-tight">ШАШКИ</h1>
+          <p className="text-xs uppercase tracking-widest opacity-70 mt-2 font-mono">Russian Checkers AI</p>
         </div>
         <div className="flex gap-4">
           <button 
             onClick={resetGame}
-            className="group flex items-center justify-center w-12 h-12 rounded-full border border-[#1A1A1A]/20 hover:bg-[#1A1A1A] hover:text-[#FDFCF8] transition-all duration-300"
+            className="group flex items-center justify-center w-12 h-12 rounded-full border border-white/40 hover:bg-white hover:text-indigo-600 transition-all duration-300"
           >
             <RefreshCcw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
           </button>
@@ -175,34 +175,34 @@ export const CheckersGame: React.FC = () => {
       <div className="w-full max-w-2xl grid grid-cols-2 gap-4 mb-8">
         <div className={`
           p-4 rounded-2xl border transition-all duration-500 flex items-center gap-4
-          ${gameState.currentPlayer === 'white' && !gameState.winner ? 'bg-[#1A1A1A] text-[#FDFCF8] scale-105 shadow-xl' : 'bg-white border-[#1A1A1A]/10 scale-95 opacity-80'}
+          ${gameState.currentPlayer === 'white' && !gameState.winner ? 'bg-white text-indigo-900 scale-105 shadow-2xl border-transparent' : 'bg-white/10 border-white/20 scale-95 opacity-80'}
         `}>
-          <div className="w-10 h-10 rounded-full bg-[#E5E5E5] border border-[#1A1A1A]/10 shadow-inner flex items-center justify-center">
-            <User className="w-5 h-5 text-[#1A1A1A]" />
+          <div className="w-10 h-10 rounded-full bg-[#E5E5E5] border border-black/10 shadow-inner flex items-center justify-center">
+            <User className="w-5 h-5 text-indigo-900" />
           </div>
           <div>
             <p className="text-[10px] uppercase tracking-wider opacity-60">Player 1</p>
-            <p className="font-medium text-lg">Белые</p>
+            <p className="font-semibold text-lg">Белые</p>
           </div>
         </div>
         <div className={`
           p-4 rounded-2xl border transition-all duration-500 flex items-center gap-4
-          ${gameState.currentPlayer === 'black' && !gameState.winner ? 'bg-[#1A1A1A] text-[#FDFCF8] scale-105 shadow-xl' : 'bg-white border-[#1A1A1A]/10 scale-95 opacity-80'}
+          ${gameState.currentPlayer === 'black' && !gameState.winner ? 'bg-white text-indigo-900 scale-105 shadow-2xl border-transparent' : 'bg-white/10 border-white/20 scale-95 opacity-80'}
         `}>
-          <div className={`w-10 h-10 rounded-full bg-[#333] border border-[#FDFCF8]/10 shadow-2xl flex items-center justify-center ${isBotThinking ? 'animate-pulse' : ''}`}>
-            <Cpu className="w-5 h-5 text-[#FDFCF8]" />
+          <div className={`w-10 h-10 rounded-full bg-[#333] border border-white/10 shadow-2xl flex items-center justify-center ${isBotThinking ? 'animate-pulse' : ''}`}>
+            <Cpu className="w-5 h-5 text-white" />
           </div>
           <div>
             <p className="text-[10px] uppercase tracking-wider opacity-60">Player 2 (AI)</p>
-            <p className="font-medium text-lg">{isBotThinking ? 'Думает...' : 'Черные'}</p>
+            <p className="font-semibold text-lg">{isBotThinking ? 'Думает...' : 'Черные'}</p>
           </div>
         </div>
       </div>
 
       {/* Board Container */}
       <div className="relative group">
-        <div className="bg-[#1A1A1A] p-2 md:p-4 rounded-xl shadow-2xl overflow-hidden border-8 border-[#1A1A1A]">
-          <div className="grid grid-cols-8 gap-0 border border-[#FDFCF8]/10 rounded-sm">
+        <div className="bg-indigo-950 p-2 md:p-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden border-8 border-indigo-950">
+          <div className="grid grid-cols-8 gap-0 border border-white/5 rounded-sm">
             {gameState.board.map((rowArr, rowIndex) => 
               rowArr.map((piece, colIndex) => {
                 const isDark = (rowIndex + colIndex) % 2 !== 0;
@@ -216,12 +216,12 @@ export const CheckersGame: React.FC = () => {
                     className={`
                       relative w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 flex items-center justify-center cursor-pointer
                       transition-colors duration-300
-                      ${isDark ? 'bg-[#2A2A2A]' : 'bg-[#EFEFEF]'}
+                      ${isDark ? 'bg-indigo-800' : 'bg-indigo-100'}
                     `}
                   >
                     {/* Move Indicator */}
                     {isValidMove && (
-                      <div className="absolute w-4 h-4 rounded-full bg-[#FF6321]/40 border border-[#FF6321] z-10 animate-pulse" />
+                      <div className="absolute w-5 h-5 rounded-full bg-orange-500/60 border-2 border-orange-400 z-10 animate-pulse" />
                     )}
 
                     {/* Piece */}
@@ -232,25 +232,25 @@ export const CheckersGame: React.FC = () => {
                           initial={{ scale: 0.8, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0.5, opacity: 0 }}
-                          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                          transition={{ type: 'spring', stiffness: 350, damping: 25 }}
                           className={`
-                            relative w-4/5 h-4/5 rounded-full z-20 flex items-center justify-center
-                            shadow-xl
+                            relative w-[85%] h-[85%] rounded-full z-20 flex items-center justify-center
+                            shadow-[0_8px_16px_rgba(0,0,0,0.4)]
                             ${piece.player === 'white' 
-                              ? 'bg-[#FDFCF8] text-[#1A1A1A]' 
-                              : 'bg-[#1A1A1A] text-[#FDFCF8] border border-[#FDFCF8]/20'}
-                            ${isSelected ? 'ring-4 ring-[#FF6321] scale-110 shadow-[0_0_20px_rgba(255,99,33,0.5)]' : ''}
+                              ? 'bg-zinc-50 text-indigo-900 border-b-4 border-zinc-300' 
+                              : 'bg-zinc-900 text-white border-b-4 border-black border-t border-white/10'}
+                            ${isSelected ? 'ring-4 ring-orange-400 scale-110 shadow-[0_0_30px_rgba(251,146,60,0.6)]' : ''}
                           `}
                         >
                           {/* Inner piece circles for texture */}
-                          <div className={`w-3/4 h-3/4 rounded-full border-2 ${piece.player === 'white' ? 'border-[#1A1A1A]/10' : 'border-[#FDFCF8]/10'} flex items-center justify-center`}>
-                             <div className={`w-1/2 h-1/2 rounded-full border ${piece.player === 'white' ? 'border-[#1A1A1A]/5' : 'border-[#FDFCF8]/5'}`} />
+                          <div className={`w-[70%] h-[70%] rounded-full border-2 ${piece.player === 'white' ? 'border-zinc-200' : 'border-zinc-800'} flex items-center justify-center`}>
+                             <div className={`w-1/2 h-1/2 rounded-full border ${piece.player === 'white' ? 'border-zinc-100' : 'border-zinc-700'}`} />
                           </div>
                           
                           {/* King crown icon */}
                           {piece.isKing && (
                             <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                              <div className="relative text-[10px] font-bold uppercase tracking-[0.2em] opacity-40 select-none">
+                              <div className="relative text-[10px] font-black uppercase tracking-[0.2em] text-orange-400 select-none drop-shadow-sm">
                                 KING
                               </div>
                             </div>
@@ -273,18 +273,18 @@ export const CheckersGame: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               className="absolute inset-0 z-50 flex items-center justify-center p-4"
             >
-              <div className="absolute inset-0 bg-[#FDFCF8]/80 backdrop-blur-md rounded-xl" />
+              <div className="absolute inset-0 bg-indigo-900/90 backdrop-blur-md rounded-xl" />
               <div className="relative flex flex-col items-center text-center">
-                <div className="w-24 h-24 rounded-full bg-[#1A1A1A] text-[#FDFCF8] flex items-center justify-center mb-6 shadow-2xl">
+                <div className="w-24 h-24 rounded-full bg-orange-500 text-white flex items-center justify-center mb-6 shadow-2xl">
                   <Trophy className="w-12 h-12" />
                 </div>
-                <h2 className="text-5xl font-serif mb-2 tracking-tight">Победа!</h2>
-                <p className="text-xl opacity-60 uppercase tracking-widest mb-8">
+                <h2 className="text-5xl font-serif mb-2 tracking-tight text-white">Победа!</h2>
+                <p className="text-xl opacity-80 uppercase tracking-widest mb-8 text-white">
                   {gameState.winner === 'white' ? 'Белые' : 'Черные'} выиграли
                 </p>
                 <button 
                   onClick={resetGame}
-                  className="px-12 py-4 bg-[#1A1A1A] text-[#FDFCF8] rounded-full hover:bg-[#FF6321] transition-all duration-300 font-medium tracking-wide shadow-xl active:scale-95"
+                  className="px-12 py-4 bg-white text-indigo-900 rounded-full hover:bg-orange-400 hover:text-white transition-all duration-300 font-bold tracking-wide shadow-xl active:scale-95"
                 >
                   Играть снова
                 </button>
@@ -295,18 +295,18 @@ export const CheckersGame: React.FC = () => {
       </div>
 
       {/* Footer / Instructions */}
-      <div className="w-full max-w-2xl mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-[11px] uppercase tracking-widest opacity-40 font-medium">
-        <div className="flex flex-col gap-2">
-          <p className="text-[#1A1A1A]/60">Rule 01</p>
-          <p>Взятие обязательно (Jumping is mandatory)</p>
+      <div className="w-full max-w-2xl mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-[11px] uppercase tracking-widest font-semibold">
+        <div className="flex flex-col gap-2 p-4 bg-white/5 rounded-xl">
+          <p className="text-orange-400">Rule 01</p>
+          <p className="opacity-70">Взятие обязательно (Jumping is mandatory)</p>
         </div>
-        <div className="flex flex-col gap-2">
-          <p className="text-[#1A1A1A]/60">Rule 02</p>
-          <p>Дамка ходит на любое расстояние по диагонали</p>
+        <div className="flex flex-col gap-2 p-4 bg-white/5 rounded-xl">
+          <p className="text-orange-400">Rule 02</p>
+          <p className="opacity-70">Дамка ходит на любое расстояние по диагонали</p>
         </div>
-        <div className="flex flex-col gap-2">
-          <p className="text-[#1A1A1A]/60">Rule 03</p>
-          <p>Простая шашка бьет назад</p>
+        <div className="flex flex-col gap-2 p-4 bg-white/5 rounded-xl">
+          <p className="text-orange-400">Rule 03</p>
+          <p className="opacity-70">Простая шашка бьет назад</p>
         </div>
       </div>
     </div>
