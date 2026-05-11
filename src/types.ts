@@ -4,6 +4,7 @@
  */
 
 export type Player = 'white' | 'black';
+export type Difficulty = 'beginner' | 'intermediate' | 'professional';
 
 export interface Position {
   row: number;

@@ -6,7 +6,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Trophy, RefreshCcw, User, UserX, Cpu } from 'lucide-react';
-import { Player, Position, Piece, Move, GameState } from '../types';
+import { Player, Position, Piece, Move, GameState, Difficulty } from '../types';
 import { 
   BOARD_SIZE, 
   createInitialBoard, 
@@ -26,6 +26,7 @@ export const CheckersGame: React.FC = () => {
     history: []
   });
 
+  const [difficulty, setDifficulty] = useState<Difficulty>('intermediate');
   const [isBotThinking, setIsBotThinking] = useState(false);
   const [lastMove, setLastMove] = useState<Move | null>(null);
 
@@ -34,18 +35,15 @@ export const CheckersGame: React.FC = () => {
     if (gameState.currentPlayer === 'black' && !gameState.winner) {
       setIsBotThinking(true);
       const timer = setTimeout(() => {
-        const move = getBestMove(gameState.board);
+        const move = getBestMove(gameState.board, difficulty);
         if (move) {
-          // Find the piece on the board to "select" it for applyMove logic context if needed
-          // though applyMove uses selectedPiece from state.
-          // Let's refactor applyMove slightly to accept a piece or use the piece from the move.
           applyBotMove(move);
         }
         setIsBotThinking(false);
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [gameState.currentPlayer, gameState.winner, gameState.board]);
+  }, [gameState.currentPlayer, gameState.winner, gameState.board, difficulty]);
 
   const resetGame = () => {
     setGameState({
@@ -172,29 +170,53 @@ export const CheckersGame: React.FC = () => {
       </div>
 
       {/* Game Info */}
-      <div className="w-full max-w-2xl grid grid-cols-2 gap-4 mb-8">
-        <div className={`
-          p-4 rounded-2xl border transition-all duration-500 flex items-center gap-4
-          ${gameState.currentPlayer === 'white' && !gameState.winner ? 'bg-white text-indigo-900 scale-105 shadow-2xl border-transparent' : 'bg-white/10 border-white/20 scale-95 opacity-80'}
-        `}>
-          <div className="w-10 h-10 rounded-full bg-[#E5E5E5] border border-black/10 shadow-inner flex items-center justify-center">
-            <User className="w-5 h-5 text-indigo-900" />
-          </div>
-          <div>
-            <p className="text-[10px] uppercase tracking-wider opacity-60">Player 1</p>
-            <p className="font-semibold text-lg">Белые</p>
-          </div>
+      <div className="w-full max-w-2xl flex flex-col gap-6 mb-8">
+        {/* Difficulty Selection */}
+        <div className="flex justify-center items-center gap-2 p-1 bg-white/10 rounded-2xl border border-white/20">
+          {[
+            { id: 'beginner', label: 'Новичок' },
+            { id: 'intermediate', label: 'Средний' },
+            { id: 'professional', label: 'Профи' }
+          ].map((lvl) => (
+            <button
+              key={lvl.id}
+              onClick={() => setDifficulty(lvl.id as Difficulty)}
+              className={`
+                flex-1 px-4 py-2 rounded-xl text-xs uppercase tracking-widest font-bold transition-all duration-300
+                ${difficulty === lvl.id 
+                  ? 'bg-orange-500 text-white shadow-lg' 
+                  : 'hover:bg-white/10 opacity-60 text-white'}
+              `}
+            >
+              {lvl.label}
+            </button>
+          ))}
         </div>
-        <div className={`
-          p-4 rounded-2xl border transition-all duration-500 flex items-center gap-4
-          ${gameState.currentPlayer === 'black' && !gameState.winner ? 'bg-white text-indigo-900 scale-105 shadow-2xl border-transparent' : 'bg-white/10 border-white/20 scale-95 opacity-80'}
-        `}>
-          <div className={`w-10 h-10 rounded-full bg-[#333] border border-white/10 shadow-2xl flex items-center justify-center ${isBotThinking ? 'animate-pulse' : ''}`}>
-            <Cpu className="w-5 h-5 text-white" />
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className={`
+            p-4 rounded-2xl border transition-all duration-500 flex items-center gap-4
+            ${gameState.currentPlayer === 'white' && !gameState.winner ? 'bg-white text-indigo-900 scale-105 shadow-2xl border-transparent' : 'bg-white/10 border-white/20 scale-95 opacity-80'}
+          `}>
+            <div className="w-10 h-10 rounded-full bg-[#E5E5E5] border border-black/10 shadow-inner flex items-center justify-center">
+              <User className="w-5 h-5 text-indigo-900" />
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-wider opacity-60">Player 1</p>
+              <p className="font-semibold text-lg">Белые</p>
+            </div>
           </div>
-          <div>
-            <p className="text-[10px] uppercase tracking-wider opacity-60">Player 2 (AI)</p>
-            <p className="font-semibold text-lg">{isBotThinking ? 'Думает...' : 'Черные'}</p>
+          <div className={`
+            p-4 rounded-2xl border transition-all duration-500 flex items-center gap-4
+            ${gameState.currentPlayer === 'black' && !gameState.winner ? 'bg-white text-indigo-900 scale-105 shadow-2xl border-transparent' : 'bg-white/10 border-white/20 scale-95 opacity-80'}
+          `}>
+            <div className={`w-10 h-10 rounded-full bg-[#333] border border-white/10 shadow-2xl flex items-center justify-center ${isBotThinking ? 'animate-pulse' : ''}`}>
+              <Cpu className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-wider opacity-60">Player 2 (AI)</p>
+              <p className="font-semibold text-lg">{isBotThinking ? 'Думает...' : 'Черные'}</p>
+            </div>
           </div>
         </div>
       </div>

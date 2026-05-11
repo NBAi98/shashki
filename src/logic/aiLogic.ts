@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Player, Piece, Move } from '../types';
+import { Player, Piece, Move, Difficulty } from '../types';
 import { getAllPossibleMoves, BOARD_SIZE } from './checkersLogic';
 
 // Оценка позиции на доске
@@ -102,7 +102,12 @@ export const minimax = (
   }
 };
 
-export const getBestMove = (board: (Piece | null)[][]): Move | null => {
-  const result = minimax(board, 4, true, -Infinity, Infinity);
+export const getBestMove = (board: (Piece | null)[][], difficulty: Difficulty = 'intermediate'): Move | null => {
+  let depth = 3;
+  if (difficulty === 'beginner') depth = 1;
+  if (difficulty === 'intermediate') depth = 3;
+  if (difficulty === 'professional') depth = 5;
+
+  const result = minimax(board, depth, true, -Infinity, Infinity);
   return result.move;
 };
